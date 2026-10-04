@@ -49,6 +49,15 @@ pipeline {
             }
         }
 
+        stage('Docker Build') {
+            steps {
+                script {
+                    run("docker build -t appgestion-backend:${env.BUILD_NUMBER} -t appgestion-backend:latest backend")
+                    run("docker build -t appgestion-frontend:${env.BUILD_NUMBER} -t appgestion-frontend:latest frontend")
+                }
+            }
+        }
+
         stage('Archive') {
             steps {
                 archiveArtifacts artifacts: 'backend/target/*.jar', fingerprint: true
